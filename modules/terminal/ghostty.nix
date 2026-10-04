@@ -49,8 +49,6 @@ in
         window-subtitle = "false";
         mouse-hide-while-typing = true;
 
-        custom-shader = "shaders/cursor.glsl";
-
         keybind = splitKeys ++ lib.optionals isDarwin [ "global:cmd+shift+o=toggle_quick_terminal" ];
       }
       // lib.optionalAttrs isDarwin {
@@ -67,7 +65,5 @@ in
         window-decoration = "auto";
       };
     };
-
-    home.file.".config/ghostty/shaders/cursor.glsl".source = ../configs/ghostty/shaders/cursor.glsl;
   };
 }

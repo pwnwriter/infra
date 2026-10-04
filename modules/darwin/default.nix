@@ -1,7 +1,6 @@
 _:
 
 {
-
   users.users.pwnwriter = {
     name = "pwnwriter";
     home = "/Users/pwnwriter";
