@@ -8,5 +8,6 @@
     ./services.nix
     ./audio.nix
     ./desktop.nix
+    ./t3code.nix
   ];
 }

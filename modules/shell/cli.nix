@@ -1,10 +1,9 @@
 { pkgs, ... }:
 {
-  # General CLI tools. bat / eza / fastfetch / zoxide are intentionally absent —
+  # General CLI tools. bat / btop / eza / fastfetch / zoxide are intentionally absent —
   # their programs.* modules in this dir install them.
   home.packages = with pkgs; [
     aria2
-    bottom
     curlie
     fd
     jnv

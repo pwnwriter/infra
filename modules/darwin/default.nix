@@ -63,6 +63,10 @@ _:
           type = "png";
 
         };
+
+        "com.superlogical.rex" = {
+          "Workspace.terminalFontName" = "Lilex Nerd Font Mono";
+        };
       };
 
       NSGlobalDomain = {

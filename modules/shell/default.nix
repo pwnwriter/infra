@@ -7,6 +7,7 @@
     ./direnv.nix
     ./eza.nix
     ./bat.nix
+    ./btop.nix
     ./cli.nix
     ./nh.nix
   ];

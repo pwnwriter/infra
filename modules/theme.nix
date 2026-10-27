@@ -13,7 +13,7 @@
 # Ghostty is the exception: it auto-switches with the OS appearance
 # (macOS appearance / GNOME colour-scheme) between the two custom themes
 # generated below, so `variant` only pins the CLI tools (bat/yazi/eza/fzf/starship).
-_:
+{ lib, ... }:
 let
   # <<< change this one line to reskin everything CLI >>>
   variant = "summer";
@@ -116,6 +116,82 @@ let
       selection-background = c.surface1;
       selection-foreground = c.text;
     };
+
+  # btop theme, generated from a palette. Gradients run cool to hot the way
+  # btop's own themes do: green for healthy, yellow for busy, red for hot.
+  # `free` and `available` are inverted, because low is the bad end there.
+  mkBtopTheme =
+    dark: c:
+    let
+      kv = lib.mapAttrsToList (k: v: ''theme[${k}]="${v}"'');
+      # Text drawn on top of a palette colour (the follow and banner chips).
+      # Evergarden's accents are mid pastels either way, so the darkest
+      # neutral reads best on them in both variants.
+      onAccent = if dark then c.crust else c.text;
+    in
+    lib.concatStringsSep "\n" (kv {
+      main_bg = c.base;
+      main_fg = c.text;
+      title = c.text;
+      hi_fg = c.green; # Evergarden's accent
+      selected_bg = c.surface1;
+      selected_fg = c.text;
+      inactive_fg = c.overlay0;
+      graph_text = c.subtext0;
+      meter_bg = c.surface0;
+      proc_misc = c.aqua;
+
+      cpu_box = c.overlay0;
+      mem_box = c.overlay0;
+      net_box = c.overlay0;
+      proc_box = c.overlay0;
+      div_line = c.surface2;
+
+      temp_start = c.green;
+      temp_mid = c.yellow;
+      temp_end = c.red;
+
+      cpu_start = c.green;
+      cpu_mid = c.yellow;
+      cpu_end = c.red;
+
+      used_start = c.green;
+      used_mid = c.yellow;
+      used_end = c.red;
+
+      free_start = c.red;
+      free_mid = c.yellow;
+      free_end = c.green;
+
+      available_start = c.red;
+      available_mid = c.yellow;
+      available_end = c.green;
+
+      cached_start = c.blue;
+      cached_mid = c.aqua;
+      cached_end = c.green;
+
+      download_start = c.green;
+      download_mid = c.aqua;
+      download_end = c.blue;
+
+      upload_start = c.yellow;
+      upload_mid = c.orange;
+      upload_end = c.pink;
+
+      process_start = c.green;
+      process_mid = c.pink;
+      process_end = c.red;
+
+      # Process list: follow mode, the paused marker and the banner.
+      followed_bg = c.blue;
+      followed_fg = onAccent;
+      proc_follow_bg = c.blue;
+      proc_pause_bg = c.red;
+      proc_banner_bg = c.purple;
+      proc_banner_fg = onAccent;
+    })
+    + "\n";
 
   # Minimal Evergarden tmTheme, generated from the active palette. Used by bat
   # (`--theme`) and yazi (`syntect_theme`) for syntax-highlighted previews.
@@ -221,6 +297,16 @@ in
       themes = {
         evergarden-summer = mkGhosttyTheme false palettes.summer;
         evergarden-winter = mkGhosttyTheme true palettes.winter;
+      };
+    };
+
+    # btop has no light/dark switching of its own, so `active` is the one
+    # `variant` selects, like the rest of the CLI tools.
+    btop = {
+      active = "evergarden-${variant}";
+      themes = {
+        evergarden-summer = mkBtopTheme false palettes.summer;
+        evergarden-winter = mkBtopTheme true palettes.winter;
       };
     };
   };
