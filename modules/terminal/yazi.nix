@@ -1,6 +1,6 @@
 { theme, ... }:
 let
-  # Evergarden's accent (cursor in Ghostty, GNOME accent, mode pill here).
+  # Evergarden's accent (terminal cursor, GNOME accent, mode pill here).
   accent = theme.green;
 in
 {

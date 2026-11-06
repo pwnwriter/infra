@@ -49,6 +49,9 @@ in
     }:
     nixpkgs.lib.nixosSystem {
       inherit system;
+      # Machine modules reach flake inputs through this (see
+      # machines/elliot/desktop.nix, which uses the llm-agents overlay).
+      specialArgs = { inherit inputs; };
       modules = [
         { nixpkgs.config.allowUnfree = true; }
         determinate.nixosModules.default

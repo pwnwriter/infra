@@ -10,9 +10,8 @@
 # The file is a plain module, so it can be imported by home-manager AND by a
 # NixOS host (machines/elliot/desktop.nix does, to pick GNOME's light/dark).
 #
-# Ghostty is the exception: it auto-switches with the OS appearance
-# (macOS appearance / GNOME colour-scheme) between the two custom themes
-# generated below, so `variant` only pins the CLI tools (bat/yazi/eza/fzf/starship).
+# `variant` pins every tool that cannot follow the OS appearance itself,
+# which is all of them here (bat/yazi/eza/fzf/starship/btop).
 { lib, ... }:
 let
   # <<< change this one line to reskin everything CLI >>>
@@ -79,10 +78,12 @@ let
   isDark = variant == "winter";
   eg = palettes.${variant};
 
-  # Ghostty theme (16-colour ANSI palette + UI colours) for a palette.
+  # Terminal theme (16-colour ANSI palette + UI colours) for a palette, in
+  # Ghostty's theme-file format. Rex imports that format (client.theme.import),
+  # which is what modules/terminal/rex.nix writes these out for.
   # ANSI black/white follow the usual light/dark conventions so "black" text
   # stays readable on Summer and "white" text on Winter.
-  mkGhosttyTheme =
+  mkTerminalTheme =
     dark: c:
     let
       black = if dark then c.surface1 else c.subtext1;
@@ -291,12 +292,12 @@ in
   _module.args.theme = eg // {
     name = variant;
     inherit isDark palettes tmTheme;
-    ghostty = {
+    terminalThemes = {
       dark = "evergarden-winter";
       light = "evergarden-summer";
       themes = {
-        evergarden-summer = mkGhosttyTheme false palettes.summer;
-        evergarden-winter = mkGhosttyTheme true palettes.winter;
+        evergarden-summer = mkTerminalTheme false palettes.summer;
+        evergarden-winter = mkTerminalTheme true palettes.winter;
       };
     };
 

@@ -20,6 +20,14 @@
     };
 
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
+
+    # Desktop apps for AI agents (chatgpt, claude-desktop, ...).
+    # Its overlay builds against our nixpkgs, so unfree is allowed by our
+    # config rather than the flake's own pinned nixpkgs.
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs: {

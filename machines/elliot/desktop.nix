@@ -2,6 +2,7 @@
   lib,
   pkgs,
   theme,
+  inputs,
   ...
 }:
 {
@@ -9,12 +10,16 @@
   # `variant` in modules/theme.nix (summer -> light, winter -> dark).
   imports = [ ../../modules/theme.nix ];
 
+  # Desktop apps for AI agents, built against this system's nixpkgs so they
+  # share its dependencies and honour its allowUnfree.
+  nixpkgs.overlays = [ inputs.llm-agents.overlays.shared-nixpkgs ];
+
   # GNOME (Wayland-only since GNOME 49), GDM as the greeter.
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
 
-  # Straight into pwn's session on boot: the screen is a 24/7 dashboard, so
-  # there is nobody at the greeter to log in.
+  # Straight into pwn's session on boot: this machine runs with the screen on
+  # and nobody at the greeter to log in.
   services.displayManager.autoLogin = {
     enable = true;
     user = "pwn";
@@ -27,12 +32,32 @@
   # in power.nix. Keep tlp: it owns the AC/battery governor policy here.
   services.power-profiles-daemon.enable = false;
 
+  # Chrome is the browser here, so drop GNOME Web rather than ship two.
+  environment.gnome.excludePackages = [ pkgs.epiphany ];
+
+  environment.systemPackages = [
+    pkgs.google-chrome
+    pkgs.llm-agents.chatgpt # ChatGPT / Codex desktop app
+  ];
+
+  # Hand http(s) and html to Chrome instead of whatever GNOME picks.
+  xdg.mime.defaultApplications =
+    let
+      chrome = "google-chrome.desktop";
+    in
+    {
+      "text/html" = chrome;
+      "x-scheme-handler/http" = chrome;
+      "x-scheme-handler/https" = chrome;
+      "x-scheme-handler/about" = chrome;
+      "x-scheme-handler/unknown" = chrome;
+    };
+
   # System-wide dconf defaults (user can still override in Settings).
   programs.dconf.profiles.user.databases = [
     {
       settings = {
-        # Evergarden: light = Summer, dark = Winter. Ghostty follows this via
-        # the desktop portal and swaps between its two generated themes.
+        # Evergarden: light = Summer, dark = Winter.
         "org/gnome/desktop/interface" = {
           color-scheme = if theme.isDark then "prefer-dark" else "default";
           accent-color = "green"; # Evergarden's accent
@@ -54,26 +79,4 @@
       };
     }
   ];
-
-  # Dashboard: a fullscreen Ghostty running btm, started with the GNOME
-  # session and restarted if it ever exits (e.g. `q` in btm).
-  # gtk-single-instance is off for this window so the process stays alive
-  # as long as btm does; user-launched Ghostty windows are unaffected.
-  systemd.user.services.btm-dashboard = {
-    description = "Ghostty + btm system monitor";
-    partOf = [ "graphical-session.target" ];
-    after = [ "graphical-session.target" ];
-    wantedBy = [ "graphical-session.target" ];
-    serviceConfig = {
-      ExecStart = lib.concatStringsSep " " [
-        (lib.getExe pkgs.ghostty)
-        "--gtk-single-instance=false"
-        "--fullscreen=true"
-        "-e"
-        (lib.getExe pkgs.bottom)
-      ];
-      Restart = "always";
-      RestartSec = 2;
-    };
-  };
 }

@@ -8,8 +8,8 @@ let
   inherit (pkgs.stdenv.hostPlatform) isDarwin;
 
   # Rex (superlogical.com/rex) is a closed beta macOS app installed by hand,
-  # like Ghostty was. There is no package and no Linux client yet, so this
-  # module only writes its config; ghostty.nix still serves elliot.
+  # like Ghostty was before it. There is no package and no Linux client yet,
+  # so this module only writes its config.
   #
   # Rex imports Ghostty and iTerm palettes (the `client.theme.import` action),
   # so the Evergarden palettes in modules/theme.nix feed it unchanged. Render
@@ -28,7 +28,7 @@ let
 
   themeFiles = lib.mapAttrs' (
     name: t: lib.nameValuePair "rex/themes/${name}" { text = renderTheme t; }
-  ) theme.ghostty.themes;
+  ) theme.terminalThemes.themes;
 
   # Ported from the Ghostty keybinds: cmd+s is a leader, then a vim direction.
   # Action names are the ones the Rex app reports (`rex -C <client> actions`).
