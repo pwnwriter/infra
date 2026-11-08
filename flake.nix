@@ -21,6 +21,13 @@
 
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
 
+    # Rex server for elliot (machines/elliot/rex.nix). The preview channel
+    # tracks 0.1.x, matching the Rex app on the macs; stable has no release yet.
+    rex = {
+      url = "https://pkgs.superlogical.com/rex/nix/preview.tar.gz";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Desktop apps for AI agents (chatgpt, claude-desktop, ...).
     # Its overlay builds against our nixpkgs, so unfree is allowed by our
     # config rather than the flake's own pinned nixpkgs.

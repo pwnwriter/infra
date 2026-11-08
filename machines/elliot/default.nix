@@ -9,5 +9,6 @@
     ./audio.nix
     ./desktop.nix
     ./t3code.nix
+    ./rex.nix
   ];
 }

@@ -398,6 +398,23 @@
         "type": "github"
       }
     },
+    "rex": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793741575,
+        "narHash": "sha256-JY1zxSfl4yAQDmTSGj4esl8z0asrct7juGEcGRCW4W8=",
+        "type": "tarball",
+        "url": "https://pkgs.superlogical.com/rex/nix/preview/0.1.0-preview.13.tar.gz"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://pkgs.superlogical.com/rex/nix/preview.tar.gz"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
@@ -405,7 +422,8 @@
         "determinate": "determinate",
         "home-manager": "home-manager_2",
         "llm-agents": "llm-agents",
-        "nixpkgs": "nixpkgs_3"
+        "nixpkgs": "nixpkgs_3",
+        "rex": "rex"
       }
     },
     "systems": {
