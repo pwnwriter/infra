@@ -45,10 +45,47 @@ let
     rex.bind("cmd+s>l", "pane.focus.right")
     rex.bind("cmd+s>\\", "pane.split.right")
     rex.bind("cmd+s>-", "pane.split.down")
+
+    -- typeui: one omnibox. Jev picks the card, Lua computes what is in it.
+    -- The plugin itself lives in the working tree, so only this block needs a
+    -- rebuild; editing a card afterwards just needs `rex config reload`.
+    local typeui = os.getenv("HOME") .. "/Developer/typeui.rex/lua"
+    package.path = typeui .. "/?.lua;" .. typeui .. "/?/init.lua;" .. package.path
+
+    require("typeui").setup{
+      project_dirs = { "~/Developer" },
+      notes_file   = "~/notes/inbox.md",
+      todos_file   = "~/notes/todo.md",
+      -- The app has no shell environment, so the key comes from the keychain:
+      --   security add-generic-password -s typesafe -a "$USER" -w
+      api_key_cmd  = { "security", "find-generic-password", "-s", "typesafe", "-w" },
+    }
+
+    rex.bind("cmd+s>t", "typeui")
   '';
 in
 {
   config = lib.mkIf isDarwin {
+    # Rex never puts its CLI on PATH. Inside a block it exports REX_BIN_DIR and
+    # leaves the rest to you; outside one there is nothing at all, because a Mac
+    # app cannot write to /usr/local/bin without admin. This wrapper prefers the
+    # auto-updating install under Application Support, so it follows the app's
+    # own updates, and it is a script rather than a symlink because that path
+    # has spaces in it.
+    home.packages = [
+      (pkgs.writeShellScriptBin "rex" ''
+        for candidate in \
+          "$HOME/Library/Application Support/com.superlogical.rex/RexServer/Versions/Current/Rex Server.app/Contents/MacOS/rex" \
+          "/Applications/Rex Beta.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex" \
+          "/Applications/Rex.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex"
+        do
+          [ -x "$candidate" ] && exec "$candidate" "$@"
+        done
+        echo "rex: no Rex install found (is the app installed?)" >&2
+        exit 1
+      '')
+    ];
+
     xdg.configFile = themeFiles // {
       "rex/init.lua".text = initLua;
     };
