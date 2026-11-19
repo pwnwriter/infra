@@ -10,5 +10,6 @@
     ./desktop.nix
     ./t3code.nix
     ./rex.nix
+    ./capy.nix
   ];
 }

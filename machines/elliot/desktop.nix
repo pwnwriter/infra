@@ -38,6 +38,10 @@
   environment.systemPackages = [
     pkgs.google-chrome
     pkgs.llm-agents.chatgpt # ChatGPT / Codex desktop app
+    # The official Claude app, which carries Chat, Cowork and Claude Code.
+    # Linux has been beta since June 2026; it is the same build Anthropic
+    # ships in its apt repository, so there is no separate Claude Code app.
+    pkgs.llm-agents.claude-desktop
   ];
 
   # Hand http(s) and html to Chrome instead of whatever GNOME picks.
