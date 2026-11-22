@@ -8,6 +8,10 @@ let
     determinate
     ;
 
+  # Agent packages (codex, codex-acp, chatgpt, ...) built against our own
+  # nixpkgs, so they share its dependencies and honour allowUnfree.
+  overlays = [ inputs.llm-agents.overlays.shared-nixpkgs ];
+
   # Shared home-manager wiring for system-integrated hosts (darwin / nixos).
   # home.stateVersion is owned by modules/default.nix.
   hmModule = username: {
@@ -32,7 +36,10 @@ in
     darwin.lib.darwinSystem {
       inherit system;
       modules = [
-        { nixpkgs.config.allowUnfree = true; }
+        {
+          nixpkgs.config.allowUnfree = true;
+          nixpkgs.overlays = overlays;
+        }
         ../modules/darwin
         home-manager.darwinModules.home-manager
         (hmModule username)
@@ -53,7 +60,10 @@ in
       # machines/elliot/desktop.nix, which uses the llm-agents overlay).
       specialArgs = { inherit inputs; };
       modules = [
-        { nixpkgs.config.allowUnfree = true; }
+        {
+          nixpkgs.config.allowUnfree = true;
+          nixpkgs.overlays = overlays;
+        }
         determinate.nixosModules.default
         { determinate.enable = true; }
         home-manager.nixosModules.home-manager
@@ -72,6 +82,7 @@ in
     home-manager.lib.homeManagerConfiguration {
       pkgs = import nixpkgs {
         inherit system;
+        inherit overlays;
         config.allowUnfree = true;
       };
       modules = [

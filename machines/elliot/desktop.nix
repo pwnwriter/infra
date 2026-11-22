@@ -2,17 +2,12 @@
   lib,
   pkgs,
   theme,
-  inputs,
   ...
 }:
 {
   # Pull in the shared palette so GNOME's light/dark choice follows
   # `variant` in modules/theme.nix (summer -> light, winter -> dark).
   imports = [ ../../modules/theme.nix ];
-
-  # Desktop apps for AI agents, built against this system's nixpkgs so they
-  # share its dependencies and honour its allowUnfree.
-  nixpkgs.overlays = [ inputs.llm-agents.overlays.shared-nixpkgs ];
 
   # GNOME (Wayland-only since GNOME 49), GDM as the greeter.
   services.displayManager.gdm.enable = true;

@@ -46,20 +46,21 @@ let
     rex.bind("cmd+s>\\", "pane.split.right")
     rex.bind("cmd+s>-", "pane.split.down")
 
-    -- typeui: one omnibox. Jev picks the card, Lua computes what is in it.
-    -- The plugin itself lives in the working tree, so only this block needs a
-    -- rebuild; editing a card afterwards just needs `rex config reload`.
+    -- typeui: say what you want, get the command. OpenAI writes it, Jev judges
+    -- it. The plugin lives in the working tree, so only this block needs a
+    -- rebuild; editing it afterwards just needs `rex config reload`.
+    --
+    -- Keys come from .env beside the plugin; nothing to set up here.
     local typeui = os.getenv("HOME") .. "/Developer/typeui.rex/lua"
     package.path = typeui .. "/?.lua;" .. typeui .. "/?/init.lua;" .. package.path
 
-    require("typeui").setup{
-      project_dirs = { "~/Developer" },
-      notes_file   = "~/notes/inbox.md",
-      todos_file   = "~/notes/todo.md",
-      -- The app has no shell environment, so the key comes from the keychain:
-      --   security add-generic-password -s typesafe -a "$USER" -w
-      api_key_cmd  = { "security", "find-generic-password", "-s", "typesafe", "-w" },
-    }
+    -- Forget the loaded modules first, so `rex config reload` picks up edits in
+    -- the working tree even if the Lua state outlives the reload.
+    for name in pairs(package.loaded) do
+      if name:match("^typeui") then package.loaded[name] = nil end
+    end
+
+    require("typeui").setup{}
 
     rex.bind("cmd+s>t", "typeui")
   '';
