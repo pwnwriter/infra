@@ -7,11 +7,11 @@
 
     secrets = {
       ssh-key = {
-        file = ../../secrets/ssh-key.age;
+        file = ../../../secrets/ssh-key.age;
         path = "${config.xdg.dataHome}/ssh/id_rsa";
       };
       gpg-key = {
-        file = ../../secrets/gpg-key.age;
+        file = ../../../secrets/gpg-key.age;
       };
     };
   };

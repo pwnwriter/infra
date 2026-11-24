@@ -80,7 +80,7 @@ let
 
   # Terminal theme (16-colour ANSI palette + UI colours) for a palette, in
   # Ghostty's theme-file format. Rex imports that format (client.theme.import),
-  # which is what modules/terminal/rex.nix writes these out for.
+  # which is what rex.nix writes these out for.
   # ANSI black/white follow the usual light/dark conventions so "black" text
   # stays readable on Summer and "white" text on Winter.
   mkTerminalTheme =

@@ -12,6 +12,6 @@ in
     home.packages = [ pkgs.herdr ];
 
     xdg.configFile."herdr/config.toml".source =
-      config.lib.file.mkOutOfStoreSymlink "${repoDir}/modules/configs/herdr/config.toml";
+      config.lib.file.mkOutOfStoreSymlink "${repoDir}/modules/home/terminal/herdr/config.toml";
   };
 }

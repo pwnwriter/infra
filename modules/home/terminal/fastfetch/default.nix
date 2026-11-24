@@ -4,7 +4,7 @@
   };
   home.file = {
     ".config/fastfetch" = {
-      source = ../configs/fastfetch;
+      source = ./files;
     };
   };
 }

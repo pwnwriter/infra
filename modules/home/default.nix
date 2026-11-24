@@ -7,7 +7,7 @@
     ./dev
     ./terminal
     ./security
-    ./linux
+    ./linux.nix
   ];
 
   xdg.dataHome = "${config.home.homeDirectory}/.local/share";

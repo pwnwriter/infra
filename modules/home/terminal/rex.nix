@@ -12,7 +12,7 @@ let
   # so this module only writes its config.
   #
   # Rex imports Ghostty and iTerm palettes (the `client.theme.import` action),
-  # so the Evergarden palettes in modules/theme.nix feed it unchanged. Render
+  # so the Evergarden palettes in theme.nix feed it unchanged. Render
   # one Ghostty-format theme file per palette:
   #   key = value, and one `palette = N=#rrggbb` line per palette entry.
   renderTheme =
@@ -33,7 +33,7 @@ let
   # Ported from the Ghostty keybinds: cmd+s is a leader, then a vim direction.
   # Action names are the ones the Rex app reports (`rex -C <client> actions`).
   initLua = ''
-    -- Managed by nix (modules/terminal/rex.nix). Edits here are overwritten.
+    -- Managed by nix (rex.nix). Edits here are overwritten.
     -- Reload after a rebuild with: rex config reload
 
     -- cmd+s leader, then a vim direction. Note that cmd+s starts a sequence,

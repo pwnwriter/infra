@@ -13,13 +13,13 @@ let
   overlays = [ inputs.llm-agents.overlays.shared-nixpkgs ];
 
   # Shared home-manager wiring for system-integrated hosts (darwin / nixos).
-  # home.stateVersion is owned by modules/default.nix.
+  # home.stateVersion is owned by modules/home/default.nix.
   hmModule = username: {
     home-manager = {
       useUserPackages = true;
       useGlobalPkgs = true;
       users.${username}.imports = [
-        ../modules
+        ../modules/home
         agenix.homeManagerModules.default
       ];
     };
@@ -86,7 +86,7 @@ in
         config.allowUnfree = true;
       };
       modules = [
-        ../modules
+        ../modules/home
         agenix.homeManagerModules.default
         { home = { inherit username homeDirectory; }; }
       ];

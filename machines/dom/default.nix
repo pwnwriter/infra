@@ -1,5 +1,5 @@
 { inputs }:
-(import ../../lib { inherit inputs; }).mkHome {
+(import ../lib.nix { inherit inputs; }).mkHome {
   username = "eipi";
   homeDirectory = "/home/eipi";
 }

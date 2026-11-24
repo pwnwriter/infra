@@ -4,7 +4,7 @@
     enable = true;
     enableZshIntegration = true;
 
-    # Evergarden colours from the active palette (see modules/theme.nix).
+    # Evergarden colours from the active palette (see theme.nix).
     colors = {
       "fg" = theme.subtext0;
       "bg" = theme.base;

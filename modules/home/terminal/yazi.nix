@@ -18,7 +18,7 @@ in
   # Evergarden tmTheme for syntax-highlighted file previews.
   xdg.configFile."yazi/evergarden.tmTheme".text = theme.tmTheme;
 
-  # Theme generated from the active palette (see modules/theme.nix).
+  # Theme generated from the active palette (see theme.nix).
   # Role mapping follows the upstream flavor (github.com/evergardentheme/yazi,
   # yazi.tera) so yazi reads like the neovim theme: muted overlay2 directories,
   # a soft surface0 hover row, and the accent only on mode / tabs / borders.

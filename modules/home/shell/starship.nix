@@ -26,7 +26,7 @@ in
     settings = {
       scan_timeout = 10;
 
-      # Evergarden palette from the active theme (see modules/theme.nix).
+      # Evergarden palette from the active theme (see theme.nix).
       palette = "evergarden";
       palettes.evergarden = {
         inherit (theme)

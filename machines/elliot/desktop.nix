@@ -6,8 +6,8 @@
 }:
 {
   # Pull in the shared palette so GNOME's light/dark choice follows
-  # `variant` in modules/theme.nix (summer -> light, winter -> dark).
-  imports = [ ../../modules/theme.nix ];
+  # `variant` in modules/home/theme.nix (summer -> light, winter -> dark).
+  imports = [ ../../modules/home/theme.nix ];
 
   # GNOME (Wayland-only since GNOME 49), GDM as the greeter.
   services.displayManager.gdm.enable = true;

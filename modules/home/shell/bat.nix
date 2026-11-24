@@ -8,7 +8,7 @@
       theme = "evergarden";
     };
 
-    # Evergarden theme generated from the active palette (see modules/theme.nix).
+    # Evergarden theme generated from the active palette (see theme.nix).
     themes.evergarden = {
       src = pkgs.writeTextDir "evergarden.tmTheme" theme.tmTheme;
       file = "evergarden.tmTheme";

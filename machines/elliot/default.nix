@@ -1,5 +1,5 @@
 { inputs }:
-(import ../../lib { inherit inputs; }).mkNixos {
+(import ../lib.nix { inherit inputs; }).mkNixos {
   modules = [
     ./hardware.nix
     ./system.nix
@@ -8,8 +8,6 @@
     ./services.nix
     ./audio.nix
     ./desktop.nix
-    ./t3code.nix
     ./rex.nix
-    ./capy.nix
   ];
 }

@@ -12,7 +12,7 @@
     ];
   };
 
-  # Theme generated from the active palette (see modules/theme.nix).
+  # Theme generated from the active palette (see theme.nix).
   xdg.configFile."eza/theme.yml".text = ''
     colourful: true
 
